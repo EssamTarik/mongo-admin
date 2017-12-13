@@ -20,7 +20,9 @@ class Users(QMainWindow):
 		addBtn.clicked.connect(self.addUser)
 
 		self.newUserField = QLineEdit()
+		self.newUserField.setPlaceholderText('Username')
 		self.newUserPasswordField = QLineEdit()
+		self.newUserPasswordField.setPlaceholderText('Password')
 		self.newUserPasswordField.setEchoMode(QLineEdit.Password)
 
 		self.UserList = QListWidget()
@@ -29,6 +31,7 @@ class Users(QMainWindow):
 		grid.addWidget(self.newUserPasswordField, 1, 2)
 		grid.addWidget(addBtn, 1, 3)
 		grid.addWidget(self.UserList, 2, 1)
+		self.UserList.setFocus()
 
 		self.readUsers()
 
