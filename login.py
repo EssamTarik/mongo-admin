@@ -2,7 +2,7 @@ import common
 import sys
 import backend
 from PyQt4.QtGui import *
-import users
+from MainMenu import MainMenu
 		
 app = QApplication(sys.argv)
 
@@ -37,7 +37,7 @@ class Login(QWidget):
 			common.showError('Login', 'login failed')
 		else:
 			common.showMsg('Login', 'login Successful')
-			newWindow = users.Users(self)
+			newWindow = MainMenu(self)
 			self.hide()
 			newWindow.show()
 

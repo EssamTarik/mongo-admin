@@ -23,6 +23,23 @@ def find(dbname, collection, query):
 
 	return {"code": 1, "message": list(result)}
 
+def getDbs():
+	try:
+		result = client.database_names()
+	except:
+		return {"code": 2, "message": "Find error"}
+
+	return {"code": 1, "message": result}
+
+def getCollections(dbname):
+	try:
+		db = client[dbname]
+		result = db.collection_names()
+	except:
+		return {"code": 2, "message": "Find error"}
+
+	return {"code": 1, "message": result}
+
 def delete(dbname, collection, query):
 	try:
 		db = client[dbname]

@@ -3,18 +3,16 @@ import sys
 import backend
 from PyQt4.QtGui import *
 
-class Users(QMainWindow):
+class Users(QDialog):
 	def __init__(self, parent=None):
-		super(QMainWindow, self).__init__(parent)
+		super(QDialog, self).__init__(parent)
 		
 		grid = QGridLayout()
-		w = QWidget()
-		w.setLayout(grid)
+		self.setLayout(grid)
 		
 		self.resize(400, 400)
 		self.move(300, 300)
 		self.setWindowTitle('Mongo Admin - Users')
-		self.setCentralWidget(w)
 
 		addBtn = QPushButton('Add')
 		addBtn.clicked.connect(self.addUser)
@@ -44,6 +42,8 @@ class Users(QMainWindow):
 	def addUser(self):
 		username = str(self.newUserField.text())
 		password = str(self.newUserPasswordField.text())
-		backend.insert('_config', '_users', {"user": username, "password": password})
-		listItem = QListWidgetItem(username)
-		self.UserList.addItem(listItem)
+		
+		if(len(username) > 0 and len(password) > 0):
+			backend.insert('_config', '_users', {"user": username, "password": password})
+			listItem = QListWidgetItem(username)
+			self.UserList.addItem(listItem)
