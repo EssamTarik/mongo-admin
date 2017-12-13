@@ -28,8 +28,8 @@ class Data(QDialog):
 
 		self.resultsArea = QTextEdit()
 
-		deleteBtn = QPushButton()
-		# findBtn.clicked.connect(self.deleteBtn)
+		deleteBtn = QPushButton("Delete")
+		deleteBtn.clicked.connect(self.deleteData)
 		findBtn = QPushButton("Find")
 		findBtn.clicked.connect(self.findData)
 
@@ -37,7 +37,8 @@ class Data(QDialog):
 		grid.addWidget(self.collectionDropdown, 1, 2)
 		grid.addWidget(self.queryLineEdit, 2, 1)
 		grid.addWidget(findBtn, 2, 2)
-		grid.addWidget(self.resultsArea, 3, 1, 2, 2)
+		grid.addWidget(deleteBtn, 2, 3)
+		grid.addWidget(self.resultsArea, 3, 1, 2, 3)
 
 	def loadCollections(self):
 		self.collectionDropdown.clear()
@@ -47,11 +48,11 @@ class Data(QDialog):
 		for collection in collections:
 			self.collectionDropdown.addItem(collection)
 
-	def findData(self):
+	def findData(self, getAll=False):
 		db = str(self.dbs[self.databaseDropdown.currentIndex()])
 		collection = str(self.collectionDropdown.currentText())
 		query = str(self.queryLineEdit.text())
-		if len(query) > 0:
+		if len(query) > 0 and getAll == False:
 			query = json.loads(query)
 		else:
 			query = {}
@@ -59,3 +60,12 @@ class Data(QDialog):
 		if result['code'] == 1:
 			result['message'] = dumps(result['message']).replace(',', ',\n')
 		self.resultsArea.setText(result['message'])
+
+	def deleteData(self):
+		db = str(self.dbs[self.databaseDropdown.currentIndex()])
+		collection = str(self.collectionDropdown.currentText())
+		query = str(self.queryLineEdit.text())
+		if len(query) > 0:
+			query = json.loads(query)
+		result = backend.delete(db, collection, query)
+		self.findData(True)
