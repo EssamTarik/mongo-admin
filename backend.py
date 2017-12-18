@@ -54,6 +54,9 @@ def login(user, password):
 	try:
 		db = client['_config']
 		collection = db['_users']
+		if len(list(collection.find({}))) == 0:
+			if(user == 'root' and password == 'root'):
+				return {"code": 1, "message": [{"user": "root", "password": "root"}]}
 		result = collection.find({"user": user, "password": password})
 	except:
 		return {"code": 2, "message": "Login error"}
